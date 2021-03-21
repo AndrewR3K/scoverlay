@@ -1,0 +1,23 @@
+
+name: Windows Deployment
+on:
+  push:
+    branches:
+      - main
+jobs:
+  sync-branches:
+    runs-on: windows-latest
+    name: Windows Deployment
+    steps:
+      - name: Checkout Branch
+        uses: actions/checkout@v2
+      - name: Setup Node
+        uses: actions/setup-node@v1
+        with:
+          node-version: 12
+      - name: Installing
+        run: npm install
+      - name: Building and Deploying
+        env:
+          GH_TOKEN: ${{secrets.GH_TOKEN}}
+        run: npm run electron:build -- --win nsis -p always

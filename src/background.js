@@ -4,10 +4,10 @@ import { app, globalShortcut, protocol, BrowserWindow, BrowserView, screen, ipcM
 import { createProtocol } from 'vue-cli-plugin-electron-builder/lib'
 import path from "path"
 import installExtension, { VUEJS_DEVTOOLS } from 'electron-devtools-installer'
-import url from 'url'
+import { autoUpdater } from "electron-updater"
 
 const isDevelopment = process.env.NODE_ENV !== 'production'
-
+let win;
 // Scheme must be registered before the app is ready
 protocol.registerSchemesAsPrivileged([
   { scheme: 'app', privileges: { secure: true, standard: true } }
@@ -23,7 +23,7 @@ async function createWindow() {
   let currentHeight = appHeight
 
   // Create the browser window.
-  const win = new BrowserWindow({
+  win = new BrowserWindow({
     icon: path.join(__static, "icons/logo@64.png"),
     width: appWidth,
     minWidth: appWidth / 2,
@@ -50,6 +50,7 @@ async function createWindow() {
     createProtocol('app')
     // Load the index.html when not in development
     win.loadURL('app://./index.html')
+    autoUpdater.checkForUpdatesAndNotify()
   }
 
   win.setMenuBarVisibility(false)
@@ -99,7 +100,7 @@ app.on('window-all-closed', () => {
 app.on('activate', () => {
   // On macOS it's common to re-create a window in the app when the
   // dock icon is clicked and there are no other windows open.
-  if (BrowserWindow.getAllWindows().length === 0) createWindow()
+  if (BrowserWindow.getAllWindows().length === 0 && win === null) createWindow()
 })
 
 // This method will be called when Electron has finished
@@ -117,6 +118,10 @@ app.on('ready', async () => {
 
   createWindow()
 })
+
+ipcMain.on('app_version', (event) => {
+  event.sender.send('app_version', { version: app.getVersion() });
+});
 
 
 // Exit cleanly on request from parent process in development mode.
