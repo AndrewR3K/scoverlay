@@ -1,5 +1,10 @@
 # scoverlay
 
+An open source Star Citizen Community Tools Browser! More info coming soon...
+
+# Want to contribute?
+
+
 ## Project setup
 ```
 npm install
