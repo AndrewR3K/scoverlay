@@ -7,7 +7,7 @@ An open source Star Citizen Community Tools Browser! More info coming soon...
 
 ## Project setup
 ```
-npm install
+npm install 
 ```
 
 ### Compiles and hot-reloads for development
