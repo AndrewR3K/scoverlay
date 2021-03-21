@@ -14,6 +14,10 @@ protocol.registerSchemesAsPrivileged([
 ])
 
 async function createWindow() {
+  let pos = {
+    x: 0, 
+    y: 0
+  }
   let display = screen.getPrimaryDisplay();
   let screenWidth = display.bounds.width;
   let appWidth = 200
@@ -22,13 +26,15 @@ async function createWindow() {
   let currentWidth = appWidth
   let currentHeight = appHeight
 
+  pos.x = screenWidth - appWidth
+
   // Create the browser window.
   win = new BrowserWindow({
     icon: path.join(__static, "icons/logo@64.png"),
     width: appWidth,
     minWidth: appWidth / 2,
     height: appHeight,
-    x: screenWidth - appWidth,
+    x: pos.x,
     y: 0,
     frame: false,
     fullscreenable: false,
@@ -57,23 +63,28 @@ async function createWindow() {
   win.setResizable(false)
   win.setAlwaysOnTop(true, 'screen');
 
-  // win.on('moved', )
-
-  let toggle = false
-  globalShortcut.register('Shift+Tab', () => {
-    toggle = !toggle
-    if (toggle) {
-      win.hide()
-    } else {
-      win.show()
-    }
+  win.on('move', (event) => {
+    let p = win.getPosition()
+    pos.x = p[0]
+    pos.y = p[1]
   })
+
+
+  // Global key capture not working when focused into sC
+  // let toggle = false
+  // globalShortcut.register('Shift+Tab', () => {
+  //   toggle = !toggle
+  //   if (toggle) {
+  //     win.hide()
+  //   } else {
+  //     win.show()
+  //   }
+  // })
 
   ipcMain.on('resize-window', (event, arg) => {
     // toggle resizable to work around current Electorn bug
     win.setResizable(true)
     win.setSize(arg && arg.width ? arg.width : appWidth, arg && arg.height ? arg.height : appHeight, true)
-    win.setPosition(screenWidth - appWidth, 0)
     win.setResizable(false)
 
     currentWidth = arg && arg.width ? arg.width : appWidth
