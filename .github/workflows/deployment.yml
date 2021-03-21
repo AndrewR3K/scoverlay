@@ -1,11 +1,11 @@
 
-name: Windows Deployment
+name: CD
 on:
   push:
     branches:
       - main
 jobs:
-  sync-branches:
+  windows-deploy:
     runs-on: windows-latest
     name: Windows Deployment
     steps:
@@ -20,4 +20,4 @@ jobs:
       - name: Building and Deploying
         env:
           GH_TOKEN: ${{secrets.GH_TOKEN}}
-        run: npm run electron:build -- --win nsis -p always
+        run: npm run electron:build -- --win -p always
