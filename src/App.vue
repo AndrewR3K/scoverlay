@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <v-app-bar app color="primary" style="background: rgba(0,0,0,0) !important;" dark id="main-nav">
+    <v-app-bar app color="primary" dark id="main-nav">
       <div class="d-flex align-center">
         <v-tooltip bottom v-if="version">
           <template v-slot:activator="{ on, attrs }">
@@ -134,12 +134,6 @@ export default {
 body::-webkit-scrollbar {
   display: none !important;
 }
-
-html, body {
-  background: rgba(0,0,0,0) !important;
-}
-
-
 
 .draggable-wrap {
   position: absolute;
