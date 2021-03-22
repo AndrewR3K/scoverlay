@@ -5,6 +5,7 @@
   "description": "A general utilizy application for star citizen community tools",
   "author": "AndrewR3K",
   "scripts": {
+    "dev": "npm run electron:serve",
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "eb:build": "electron-builder build --win --publish never",

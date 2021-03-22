@@ -1,17 +1,24 @@
 <template>
   <v-app>
-    <v-app-bar app color="primary" dark id="main-nav">
+    <v-app-bar app color="primary" style="background: rgba(0,0,0,0) !important;" dark id="main-nav">
       <div class="d-flex align-center">
-        <v-img
-          alt="Vuetify Logo"
-          class="shrink mr-2"
-          style="cursor: pointer"
-          contain
-          :src="logo"
-          transition="scale-transition"
-          width="40"
-          @click="to()"
-        />
+        <v-tooltip bottom v-if="version">
+          <template v-slot:activator="{ on, attrs }">
+            <v-img
+              v-bind="attrs"
+              v-on="on"
+              alt="Vuetify Logo"
+              class="shrink mr-2"
+              style="cursor: pointer"
+              contain
+              :src="logo"
+              transition="scale-transition"
+              width="40"
+              @click="to()"
+            />
+          </template>
+          <span>v{{ version }}</span>
+        </v-tooltip>
       </div>
 
       <v-tooltip bottom>
@@ -49,6 +56,7 @@ export default {
 
   data: () => ({
     tab: null,
+    version: null,
     currentPage: null,
     previousPage: null,
     pages: {
@@ -62,7 +70,12 @@ export default {
   }),
 
   created() {
-    this.send("app_version");
+    let that = this;
+    ipcRenderer.send("app_version");
+    ipcRenderer.on("app_version", (event, arg) => {
+      ipcRenderer.removeAllListeners("app_version");
+      that.version = arg.version;
+    });
   },
 
   mounted() {},
@@ -121,6 +134,12 @@ export default {
 body::-webkit-scrollbar {
   display: none !important;
 }
+
+html, body {
+  background: rgba(0,0,0,0) !important;
+}
+
+
 
 .draggable-wrap {
   position: absolute;

@@ -72,6 +72,7 @@ async function createWindow() {
   })
 
 
+  // TODO: FIX THIS TO WORK WITH SC KEY BIND
   // Global key capture not working when focused into sC
   // let toggle = false
   // globalShortcut.register('Shift+Tab', () => {
@@ -87,10 +88,15 @@ async function createWindow() {
     // toggle resizable to work around current Electorn bug
     win.setResizable(true)
     win.setSize(arg && arg.width ? arg.width : appWidth, arg && arg.height ? arg.height : appHeight, true)
-    win.setResizable(false)
-
+    
     currentWidth = arg && arg.width ? arg.width : appWidth
     currentHeight = arg && arg.height ? arg.height : appHeight
+    
+    let isHome = !(arg && arg.width) && !(arg && arg.height )
+
+    win.setPosition(isHome ? pos.x + 1017 : pos.x, pos.y)
+
+    win.setResizable(false)
   })
 
 
@@ -111,37 +117,34 @@ async function createWindow() {
 }
 
 ipcMain.on('app_version', (event) => {
-  if (!process.env.WEBPACK_DEV_SERVER_URL) {
-    autoUpdater.checkForUpdatesAndNotify()
-    event.sender.send('app_version', { version: app.getVersion() });
-  }
+  event.sender.send('app_version', { version: app.getVersion() });
 });
 
 autoUpdater.on('update-available', () => {
   // mainWindow.webContents.send('update_available');
-  log.error('Update available')
+  console.log('Update available')
   autoUpdater.downloadUpdate()
 });
 
 autoUpdater.on('update-downloaded', () => {
   // mainWindow.webContents.send('update_downloaded');
-  log.error('Downloaded')
+  console.log('Downloaded')
 });
 
 autoUpdater.on('checking-for-update', () => {
-  log.error('Checking for update')
+  console.log('Checking for update')
 })
 
 autoUpdater.on('update-not-available', (ev, info) => {
-  log.error('Checking ... update not available')
+  console.log('Checking ... update not available')
 })
 
 autoUpdater.on('download-progress', (ev, progressObj) => {
-  log.error('Download progress')
+  console.log('Download progress')
   // let log_message = "Download speed: " + progressObj.bytesPerSecond;
   // log_message = log_message + ' - Downloaded ' + progressObj.percent + '%';
   // log_message = log_message + ' (' + progressObj.transferred + "/" + progressObj.total + ')';
-  // log.error(log_message)
+  // console.log(log_message)
 
   // sendStatusToWindow(log_message);
   // Commented because it says undefined
