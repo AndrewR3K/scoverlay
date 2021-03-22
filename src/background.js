@@ -93,11 +93,20 @@ async function createWindow() {
     currentHeight = arg && arg.height ? arg.height : appHeight
   })
 
+
+  let currentWindow;
   ipcMain.on('open-window', (event, arg) => {
-    const view = new BrowserView()
-    win.setBrowserView(view)
-    view.setBounds({ x: 0, y: 60, width: currentWidth, height: currentHeight - 60 })
-    view.webContents.loadURL(arg.src)
+    if (currentWindow) {
+      win.removeBrowserView(currentWindow)
+    }
+    if (arg && arg.src) {
+      const view = new BrowserView()
+      win.setBrowserView(view)
+      view.setBounds({ x: 0, y: 60, width: currentWidth, height: currentHeight - 60 })
+      view.webContents.loadURL(arg.src)
+
+      currentWindow = view
+    }
   })
 }
 

@@ -86,7 +86,10 @@ export default {
         else if (to == "sctools")
           this.send("resize-window", { width: 1017, height: 600 });
         else this.send("resize-window", { height: 400, width: 400 });
-      } else this.send("resize-window");
+      } else {
+        this.send("resize-window");
+        this.send("open-window");
+      }
       this.previousPage = this.currentPage;
       this.currentPage = to;
 
