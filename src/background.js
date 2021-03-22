@@ -8,6 +8,8 @@ import { autoUpdater } from "electron-updater"
 
 const isDevelopment = process.env.NODE_ENV !== 'production'
 let win;
+autoUpdater.autoDownload = false
+
 // Scheme must be registered before the app is ready
 protocol.registerSchemesAsPrivileged([
   { scheme: 'app', privileges: { secure: true, standard: true } }
@@ -15,7 +17,7 @@ protocol.registerSchemesAsPrivileged([
 
 async function createWindow() {
   let pos = {
-    x: 0, 
+    x: 0,
     y: 0
   }
   let display = screen.getPrimaryDisplay();
@@ -52,7 +54,7 @@ async function createWindow() {
     // Load the url of the dev server if in development mode
     await win.loadURL(process.env.WEBPACK_DEV_SERVER_URL)
     if (!process.env.IS_TEST) win.webContents.openDevTools()
-} else {
+  } else {
     createProtocol('app')
     // Load the index.html when not in development
     win.loadURL('app://./index.html')
@@ -99,6 +101,48 @@ async function createWindow() {
   })
 }
 
+ipcMain.on('app_version', (event) => {
+  if (!process.env.WEBPACK_DEV_SERVER_URL) {
+    autoUpdater.checkForUpdatesAndNotify()
+    event.sender.send('app_version', { version: app.getVersion() });
+  }
+});
+
+autoUpdater.on('update-available', () => {
+  // mainWindow.webContents.send('update_available');
+  log.error('Update available')
+  autoUpdater.downloadUpdate()
+});
+
+autoUpdater.on('update-downloaded', () => {
+  // mainWindow.webContents.send('update_downloaded');
+  log.error('Downloaded')
+});
+
+autoUpdater.on('checking-for-update', () => {
+  log.error('Checking for update')
+})
+
+autoUpdater.on('update-not-available', (ev, info) => {
+  log.error('Checking ... update not available')
+})
+
+autoUpdater.on('download-progress', (ev, progressObj) => {
+  log.error('Download progress')
+  // let log_message = "Download speed: " + progressObj.bytesPerSecond;
+  // log_message = log_message + ' - Downloaded ' + progressObj.percent + '%';
+  // log_message = log_message + ' (' + progressObj.transferred + "/" + progressObj.total + ')';
+  // log.error(log_message)
+
+  // sendStatusToWindow(log_message);
+  // Commented because it says undefined
+})
+
+ipcMain.on('restart_app', () => {
+  autoUpdater.quitAndInstall();
+});
+
+
 // Quit when all windows are closed.
 app.on('window-all-closed', () => {
   // On macOS it is common for applications and their menu bar
@@ -129,10 +173,6 @@ app.on('ready', async () => {
 
   createWindow()
 })
-
-ipcMain.on('app_version', (event) => {
-  event.sender.send('app_version', { version: app.getVersion() });
-});
 
 
 // Exit cleanly on request from parent process in development mode.

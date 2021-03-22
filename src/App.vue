@@ -62,6 +62,7 @@ export default {
   }),
 
   created() {
+    this.send("app_version");
   },
 
   mounted() {},
