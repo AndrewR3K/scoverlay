@@ -1,28 +1,22 @@
-<img src="https://github.com/AndrewR3K/scoverlay/blob/v0.2.2/public/icons/logo.png?raw=true" width="200" height="200">
-# Star Citizen Overlay
+<img src="https://github.com/AndrewR3K/scoverlay/blob/v0.2.2/public/icons/logo.png?raw=true" width="100" height="100">
 
-> Your one stop shop to all important community tools while in Star Citizen! An open source Star Citizen Community Tools Browser! More info coming soon...
+# Star Citizen Overlay
 
 **Description**:  Your one stop shop to all important community tools while in Star Citizen. _SC Overlay_ is an open source Star Citizen community utility tool and browser!
 Due to the state of the games alpha, it can be considerably challanging to navigate and find everything in the verse. This tool allows you to browse popular community tools, while still in game! _*with the exception of full screen_
 
 Other things to include:
 
-  - **Technology stack**: This is a Node.js, Vue 2 and Electron base application.
-  - **Status**:  This tool is currently in Beta, you can **download** the latest version and see the changelogs [HERE](releases/download/latest).
+  - **Technology stack**: This is a Node.js, Vue and Electron base application.
+  - **Status**:  This tool is currently in Beta, you can select a version and see the changelogs [here](releases).
 
-**Disclaimer**:
-_Star Citizen Overlay_ is an unofficial _Star Citizen_ tool, not affiliated with the Cloud Imperium group of companies or affiliates.*_
-*All content on this site not authored by its host or users are property of their respective owners.*
-Star Citizen®, Roberts Space Industries® and Cloud Imperium® are registered trademarks of Cloud Imperium Rights LLC.*_
-
-**Screenshot**: If the software has visual components, place a screenshot after the description; e.g.,
+**Screenshot**:
 
 ![](src/assets/screenshot-1.png)
 ![](src/assets/screenshot-2.png)
 
 ## Download and Installation
-
+1. Go to the desired release, _*Suggested: [latest](https://github.com/AndrewR3K/scoverlay/releases/latest)._
 
 ## Getting help
 If you run into any issue, please use the discussion board, or create an issue ticket.
@@ -68,3 +62,9 @@ and patterns in the existing code-base.
 1. [Star Citizen Tools](https://starcitizen.tools/)
 2. [Erkul Games](https://www.erkul.games/)
 3. [RSI/Star Citizen](https://robertsspaceindustries.com/)
+
+**Disclaimer**:
+_Star Citizen Overlay_ is an unofficial _Star Citizen_ tool, not affiliated with the Cloud Imperium group of companies or affiliates.*_
+*All content on this site not authored by its host or users are property of their respective owners.*
+Star Citizen®, Roberts Space Industries® and Cloud Imperium® are registered trademarks of Cloud Imperium Rights LLC.*_
+<img src="https://github.com/AndrewR3K/scoverlay/blob/main/public/made_by_community.png?raw=true" width="200" height="200">
