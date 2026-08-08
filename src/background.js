@@ -72,17 +72,15 @@ async function createWindow() {
   })
 
 
-  // TODO: FIX THIS TO WORK WITH SC KEY BIND
-  // Global key capture not working when focused into sC
-  // let toggle = false
-  // globalShortcut.register('Shift+Tab', () => {
-  //   toggle = !toggle
-  //   if (toggle) {
-  //     win.hide()
-  //   } else {
-  //     win.show()
-  //   }
-  // })
+  let isOverlayVisible = true
+  globalShortcut.register('Shift+Tab', () => {
+    isOverlayVisible = !isOverlayVisible
+    if (isOverlayVisible) {
+      win.show()
+    } else {
+      win.hide()
+    }
+  })
 
   ipcMain.on('resize-window', (event, arg) => {
     // toggle resizable to work around current Electorn bug
